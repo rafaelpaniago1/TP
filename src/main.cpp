@@ -8,7 +8,7 @@ int main() {
     int n, m, k;
     std::cin >> n >> m >> k;
 
-    double coordinates[MAXN][2];
+    double coordinates[n][2];
     for (int i = 0; i < n; ++i) {
         std::cin >> coordinates[i][0] >> coordinates[i][1];
     }
