@@ -81,3 +81,70 @@ bool a_star(GraphAdjList& graph, double coordinates[MAXN][2], int s, int q) {
 
     return false;
 }
+
+bool dijkstra(GraphAdjMatrix& graph, double coordinates[MAXN][2], int s, int q) {
+    int n = graph.n;
+    double dist[MAXN];
+    int portals_used[MAXN];
+    initialize_array(dist, n, INF);
+    initialize_int_array(portals_used, n, 0);
+    PriorityQueue pq;
+
+    dist[0] = 0.0;
+    pq.push(0, 0.0);
+
+    while (!pq.empty()) {
+        double d;
+        int u = pq.pop(d);
+        if (u == n - 1) return d <= s;
+
+        for (int v = 0; v < n; ++v) {
+            if (graph.adj_matrix[u][v] < INF) {
+                double new_dist = d + graph.adj_matrix[u][v];
+                int new_portals_used = portals_used[u] + (graph.is_portal[u][v] ? 1 : 0);
+
+                if (new_portals_used <= q && new_dist < dist[v]) {
+                    dist[v] = new_dist;
+                    portals_used[v] = new_portals_used;
+                    pq.push(v, new_dist);
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+bool a_star(GraphAdjMatrix& graph, double coordinates[MAXN][2], int s, int q) {
+    int n = graph.n;
+    double dist[MAXN];
+    int portals_used[MAXN];
+    initialize_array(dist, n, INF);
+    initialize_int_array(portals_used, n, 0);
+    PriorityQueue pq;
+
+    dist[0] = 0.0;
+    pq.push(0, euclidean_distance(coordinates[0][0], coordinates[0][1], coordinates[n - 1][0], coordinates[n - 1][1]));
+
+    while (!pq.empty()) {
+        double d;
+        int u = pq.pop(d);
+        if (u == n - 1) return dist[u] <= s;
+
+        for (int v = 0; v < n; ++v) {
+            if (graph.adj_matrix[u][v] < INF) {
+                double new_dist = dist[u] + graph.adj_matrix[u][v];
+                int new_portals_used = portals_used[u] + (graph.is_portal[u][v] ? 1 : 0);
+
+                if (new_portals_used <= q && new_dist < dist[v]) {
+                    dist[v] = new_dist;
+                    portals_used[v] = new_portals_used;
+                    double heuristic = euclidean_distance(coordinates[v][0], coordinates[v][1], coordinates[n - 1][0], coordinates[n - 1][1]);
+                    pq.push(v, new_dist + heuristic);
+                }
+            }
+        }
+    }
+
+    return false;
+}
