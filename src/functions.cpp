@@ -19,7 +19,7 @@ void initialize_int_array(int arr[], int size, int value) {
     }
 }
 
-bool dijkstra(GraphAdjList& graph, double coordinates[MAXN][2], int s, int q) {
+bool dijkstra(GraphAdjList& graph, int s, int q) {
     int n = graph.n;
     double dist[MAXN];
     int portals_used[MAXN];
@@ -82,7 +82,7 @@ bool a_star(GraphAdjList& graph, double coordinates[MAXN][2], int s, int q) {
     return false;
 }
 
-bool dijkstra(GraphAdjMatrix& graph, double coordinates[MAXN][2], int s, int q) {
+bool dijkstra(GraphAdjMatrix& graph, int s, int q) {
     int n = graph.n;
     double dist[MAXN];
     int portals_used[MAXN];

@@ -13,7 +13,7 @@ int main() {
         std::cin >> coordinates[i][0] >> coordinates[i][1];
     }
 
-    GraphAdjList graph(n);
+    GraphAdjMatrix graph(n);
     for (int i = 0; i < m; ++i) {
         int u, v;
         std::cin >> u >> v;
@@ -31,7 +31,7 @@ int main() {
     int q;
     std::cin >> s >> q;
 
-    bool dijkstra_result = dijkstra(graph, coordinates, s, q);
+    bool dijkstra_result = dijkstra(graph, s, q);
     bool a_star_result = a_star(graph, coordinates, s, q);
 
     std::cout << (dijkstra_result ? 1 : 0) << " " << (a_star_result ? 1 : 0) << std::endl;
