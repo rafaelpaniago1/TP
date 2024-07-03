@@ -13,7 +13,7 @@ int main() {
         std::cin >> coordinates[i][0] >> coordinates[i][1];
     }
 
-    GraphAdjMatrix graph(n);
+    GraphAdjList graph(n);
     for (int i = 0; i < m; ++i) {
         int u, v;
         std::cin >> u >> v;
