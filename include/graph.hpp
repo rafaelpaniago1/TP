@@ -16,8 +16,8 @@ public:
 class GraphAdjMatrix {
 public:
     int n;
-    double adj_matrix[MAXN][MAXN];
-    bool is_portal[MAXN][MAXN];
+    double **adj_matrix;
+    bool **is_portal;
 
     GraphAdjMatrix(int n);
     void add_edge(int from, int to, double weight, bool portal = false);

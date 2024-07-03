@@ -14,7 +14,11 @@ void GraphAdjList::add_edge(int from, int to, double weight, bool is_portal) {
 }
 
 GraphAdjMatrix::GraphAdjMatrix(int n) : n(n) {
+    adj_matrix = new double*[n];
+    is_portal = new bool*[n];
     for (int i = 0; i < n; ++i) {
+        adj_matrix[i] = new double[n];
+        is_portal[i] = new bool[n];
         for (int j = 0; j < n; ++j) {
             adj_matrix[i][j] = INF;
             is_portal[i][j] = false;
