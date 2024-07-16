@@ -1,7 +1,7 @@
 #include "functions.hpp"
 #include <limits>
 #include "graph.hpp"
-#define INF std::numeric_limits<double>::infinity()
+const double INF = 1e9;
 
 double euclidean_distance(double x1, double y1, double x2, double y2) {
     return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
@@ -19,7 +19,7 @@ void initialize_int_array(int arr[], int size, int value) {
     }
 }
 
-bool dijkstra(GraphAdjList& graph, int s, int q) {
+bool dijkstra(GraphAdjList& graph, double s, int q) {
     int n = graph.n;
     double dist[MAXN];
     int portals_used[MAXN];
@@ -33,10 +33,14 @@ bool dijkstra(GraphAdjList& graph, int s, int q) {
     while (!pq.empty()) {
         double d;
         int u = pq.pop(d);
-        if (u == n - 1) return d <= s;
+        
+        // Early exit if we reached the destination
+        if (u == n - 1) {
+            return dist[u] <= s;
+        }
 
         for (Edge* edge = graph.adj_list[u]; edge != nullptr; edge = edge->next) {
-            double new_dist = d + edge->weight;
+            double new_dist = dist[u] + edge->weight;
             int new_portals_used = portals_used[u] + (edge->is_portal ? 1 : 0);
 
             if (new_portals_used <= q && new_dist < dist[edge->to]) {
@@ -50,11 +54,12 @@ bool dijkstra(GraphAdjList& graph, int s, int q) {
     return false;
 }
 
+
 bool a_star(GraphAdjList& graph, double coordinates[MAXN][2], int s, int q) {
     int n = graph.n;
     double dist[MAXN];
     int portals_used[MAXN];
-    initialize_array(dist, n, INF);
+    initialize_array(dist, n, std::numeric_limits<double>::infinity());
     initialize_int_array(portals_used, n, 0);
     PriorityQueue pq;
 
@@ -64,7 +69,7 @@ bool a_star(GraphAdjList& graph, double coordinates[MAXN][2], int s, int q) {
     while (!pq.empty()) {
         double d;
         int u = pq.pop(d);
-        if (u == n - 1) return dist[u] <= s;
+        if (u == n - 1) {return dist[u] <= s;}
 
         for (Edge* edge = graph.adj_list[u]; edge != nullptr; edge = edge->next) {
             double new_dist = dist[u] + edge->weight;
@@ -119,7 +124,7 @@ bool a_star(GraphAdjMatrix& graph, double coordinates[MAXN][2], int s, int q) {
     int n = graph.n;
     double dist[MAXN];
     int portals_used[MAXN];
-    initialize_array(dist, n, INF);
+    initialize_array(dist, n, std::numeric_limits<double>::infinity());
     initialize_int_array(portals_used, n, 0);
     PriorityQueue pq;
 
@@ -129,10 +134,12 @@ bool a_star(GraphAdjMatrix& graph, double coordinates[MAXN][2], int s, int q) {
     while (!pq.empty()) {
         double d;
         int u = pq.pop(d);
-        if (u == n - 1) return dist[u] <= s;
+        if (u == n - 1) {
+            return dist[u] <= s;
+        }
 
         for (int v = 0; v < n; ++v) {
-            if (graph.adj_matrix[u][v] < INF) {
+            if (graph.adj_matrix[u][v] < std::numeric_limits<double>::infinity()) {
                 double new_dist = dist[u] + graph.adj_matrix[u][v];
                 int new_portals_used = portals_used[u] + (graph.is_portal[u][v] ? 1 : 0);
 

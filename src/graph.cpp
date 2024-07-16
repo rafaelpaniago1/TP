@@ -1,5 +1,5 @@
 #include "graph.hpp"
-#define INF std::numeric_limits<double>::infinity()
+const double INF = 1e9;
 
 GraphAdjList::GraphAdjList(int n) : n(n) {
     for (int i = 0; i < n; ++i) {
@@ -20,7 +20,7 @@ GraphAdjMatrix::GraphAdjMatrix(int n) : n(n) {
         adj_matrix[i] = new double[n];
         is_portal[i] = new bool[n];
         for (int j = 0; j < n; ++j) {
-            adj_matrix[i][j] = INF;
+            adj_matrix[i][j] = 1e9;
             is_portal[i][j] = false;
         }
     }

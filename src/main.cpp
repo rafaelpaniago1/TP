@@ -14,17 +14,21 @@ int main() {
     }
 
     GraphAdjList graph(n);
+    GraphAdjMatrix graph2(n);
+
     for (int i = 0; i < m; ++i) {
         int u, v;
         std::cin >> u >> v;
         double weight = euclidean_distance(coordinates[u][0], coordinates[u][1], coordinates[v][0], coordinates[v][1]);
         graph.add_edge(u, v, weight);
+        graph2.add_edge(u,v,weight);
     }
 
     for (int i = 0; i < k; ++i) {
         int u, v;
         std::cin >> u >> v;
         graph.add_edge(u, v, 0.0, true);
+        graph2.add_edge(u, v, 0.0, true);
     }
 
     double s;
@@ -38,4 +42,3 @@ int main() {
 
     return 0;
 }
-
